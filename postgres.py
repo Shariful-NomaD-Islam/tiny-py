@@ -60,6 +60,12 @@ try:
             record = cursor2.fetchone()
             if (record[0] == None):
                 print (k, ' should get a global-id')
+                
+                query = """update table-2 set status = %s where uuid = %s"""
+                cursor.execute(query, (45,k))
+                connection.commit()
+                count = cursor.rowcount
+                print (count, " Record inserted successfully into table-2")
             else:
                 print (k, ' has a global-id: ', record[0])
         
