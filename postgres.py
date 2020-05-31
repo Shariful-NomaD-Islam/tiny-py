@@ -80,9 +80,9 @@ try:
                 
                 ######### DELETE-OPERATION #######################    
                 query = """update table-2 set status = %s where uuid = %s"""
-                cursor.execute(query, (45,k))
-                connection.commit()
-                count = cursor.rowcount
+                cursor2.execute(query, (45,k))
+                connection2.commit()
+                count = cursor2.rowcount
                 print (count, " Record updated successfully in table-2")
             else:
                 print (k, ' has a global-id: ', record[0])
