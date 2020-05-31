@@ -2,19 +2,19 @@ import psycopg2
 
 
 try:
-    connection = psycopg2.connect(user = "user1",
-                                  password = "pass1",
-                                  host = "192.168.0.1",
+    connection = psycopg2.connect(user = "USER1",
+                                  password = "PASS1",
+                                  host = "192.168.4.1",
                                   port = "5432",
-                                  database = "db-name-1")
+                                  database = "DB1")
 
     cursor = connection.cursor()
     
-    connection2 = psycopg2.connect(user = "user2",
-                                  password = "pass2",
-                                  host = "192.168.0.2",
+    connection2 = psycopg2.connect(user = "USER2",
+                                  password = "PASS2",
+                                  host = "192.168.4.2",
                                   port = "5432",
-                                  database = "db-name-2")
+                                  database = "DB2")
 
     cursor2 = connection2.cursor()
 
@@ -34,25 +34,25 @@ try:
 
 ######### INSERT-OPERATION #######################    
     query = """ INSERT INTO r6 (ID, MODEL, PRICE) VALUES (%s,%s,%s)"""
-    record_to_insert = (5, 'One Plus 6', 950)
-    cursor2.execute(postgres_insert_query, record_to_insert)
+    record_to_insert = (6, 'One Plus 6', 950)
+    cursor2.execute(query, record_to_insert)
     connection2.commit()
     count = cursor2.rowcount
     print (count, "Record inserted successfully into mobile table")
     
     
 ######### DELETE-OPERATION #######################    
-    query = """ DELETE FROM table-2 where ID = %s"""
-    cursor2.execute(query, (5))
+    query = """ DELETE FROM r6 where ID = %s"""
+    cursor2.execute(query, (6, ))
     connection2.commit()
     count = cursor2.rowcount
     print(count, " Record deleted successfully ")
     
     
 ######### SELECT-OPERATION #######################        
-    query = "select id, primary_id, matched_id from table-1"
+    query = "select id, primary_id, matched_id from TABLE1"
     cursor.execute(query)
-    print("Selecting rows from mobile table using cursor.fetchall")
+    print("Selecting rows from TABLE1 using cursor.fetchall")
     mobile_records = cursor.fetchall() 
     
     afis_match_info = {}
@@ -72,18 +72,18 @@ try:
     for k,v in afis_match_info.items():
         print(k,v)
         if v[0] < v[1]:
-            query = "select global_id from table-2 where uuid = '{}'".format(k)
+            query = "select global_id from TABLE2 where uuid = '{}'".format(k)
             cursor2.execute(query)
             record = cursor2.fetchone()
             if (record[0] == None):
                 print (k, ' should get a global-id')
                 
                 ######### DELETE-OPERATION #######################    
-                query = """update table-2 set status = %s where uuid = %s"""
+                query = """update TABLE2 set status = %s where uuid = %s"""
                 cursor2.execute(query, (45,k))
                 connection2.commit()
                 count = cursor2.rowcount
-                print (count, " Record updated successfully in table-2")
+                print (count, " Record updated successfully in TABLE2")
             else:
                 print (k, ' has a global-id: ', record[0])
         
