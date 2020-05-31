@@ -18,8 +18,9 @@ try:
 
     cursor2 = connection2.cursor()
 
+######### CREATE-OPERATION #######################    
     # Print PostgreSQL Connection properties
-    print ( connection.get_dsn_parameters(),"\n")
+    # print ( connection.get_dsn_parameters(),"\n")
     
     # create_table_query = '''CREATE TABLE r6
     #       (ID INT PRIMARY KEY     NOT NULL,
@@ -29,17 +30,33 @@ try:
     # cursor2.execute(create_table_query)
     # connection2.commit()
     # print("Table created successfully in PostgreSQL ")
+
+
+######### INSERT-OPERATION #######################    
+    query = """ INSERT INTO r6 (ID, MODEL, PRICE) VALUES (%s,%s,%s)"""
+    record_to_insert = (5, 'One Plus 6', 950)
+    cursor2.execute(postgres_insert_query, record_to_insert)
+    connection2.commit()
+    count = cursor2.rowcount
+    print (count, "Record inserted successfully into mobile table")
     
+    
+######### DELETE-OPERATION #######################    
+    query = """ DELETE FROM table-2 where ID = %s"""
+    cursor2.execute(query, (5))
+    connection2.commit()
+    count = cursor2.rowcount
+    print(count, " Record deleted successfully ")
+    
+    
+######### SELECT-OPERATION #######################        
     query = "select id, primary_id, matched_id from table-1"
     cursor.execute(query)
     print("Selecting rows from mobile table using cursor.fetchall")
     mobile_records = cursor.fetchall() 
-   
     
     afis_match_info = {}
-    
     for row in mobile_records:
-        # print("Id = ", row[0], "primary-id = ", row[1], "matched-id  = ", row[2])
         if (row[1] in afis_match_info) == True:
             if afis_match_info[row[1]][0] > row[0]:
                 afis_match_info[row[1]][0] = row[0]
@@ -61,11 +78,12 @@ try:
             if (record[0] == None):
                 print (k, ' should get a global-id')
                 
+                ######### DELETE-OPERATION #######################    
                 query = """update table-2 set status = %s where uuid = %s"""
                 cursor.execute(query, (45,k))
                 connection.commit()
                 count = cursor.rowcount
-                print (count, " Record inserted successfully into table-2")
+                print (count, " Record updated successfully in table-2")
             else:
                 print (k, ' has a global-id: ', record[0])
         
