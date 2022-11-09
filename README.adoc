@@ -5,7 +5,7 @@ version: 0.1.0, 2021-03-04
 :toc-title: Table of Contents
 
 == Getting Started
-Test: 1
+This project is for postgresql operation using python
 
 == Dependency
 Test: 2
