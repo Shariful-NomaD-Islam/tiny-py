@@ -5,7 +5,7 @@ version: 0.1.0, 2021-03-04
 :toc-title: Table of Contents
 
 == Getting Started
-This project demonstrate postgresql operation using python
+This project demonstrate psql operation using python
 
 == Dependency
 Test: 2
